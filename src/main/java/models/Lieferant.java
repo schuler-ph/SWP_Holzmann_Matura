@@ -13,7 +13,6 @@ public class Lieferant {
 	public Lieferant() { this(0, "", "", "", "", "", "", "" ); }
 	
 	public Lieferant( int LieferantId, String Name, String Email, String Ort, String PLZ, String Strasze, String Hnr, String Land) {
-		System.out.println("Hello, world");
 		this.LieferantId = LieferantId;
 		this.Name = Name;
 		this.Email = Email;

@@ -53,10 +53,10 @@ public class DbManager {
 		String sql = "INSERT INTO artikel VALUES (null, ?, ?, ?, ?);";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(2, art.getBezeichnung());
-			ps.setString(3, art.getBeschreibung());
-			ps.setDouble(4, art.getVerkaufspreisNetto());
-			ps.setInt(5, art.getLieferantId());
+			ps.setString(1, art.getBezeichnung());
+			ps.setString(2, art.getBeschreibung());
+			ps.setDouble(3, art.getVerkaufspreisNetto());
+			ps.setInt(4, art.getLieferantId());
 			ps.executeUpdate();
 			System.out.println("Insert Artikel success");
 		}
@@ -100,7 +100,7 @@ public class DbManager {
 	
 	public List<String> holeLieferantenNamen(Connection conn){
 		List<String> namen = new ArrayList<String>();
-		String sql = "SELECT Name FROM lieferanten";
+		String sql = "SELECT Name FROM lieferant";
 		ResultSet rs = null;
 		
 		try {
@@ -126,7 +126,8 @@ public class DbManager {
 	
 	public List<Artikel> holeArtikelVonLieferant(Connection conn, Lieferant l){
 		List<Artikel> arts = new ArrayList<Artikel>();
-		Artikel art = new Artikel();
+		Artikel art;
+		
 		String sql = "SELECT ArtikelId, Bezeichnung, Beschreibung, VerkaufspreisNetto FROM artikel WHERE LieferantId=" + l.getLieferantId() + ";";
 		ResultSet rs = null;
 		
@@ -134,11 +135,12 @@ public class DbManager {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				art.setArtikelId(rs.getInt(1));
-				art.setBezeichnung(rs.getString(2));
-				art.setBeschreibung(rs.getString(3));
-				art.setVerkaufspreisNetto(rs.getDouble(4));
-				art.setLieferantId(l.getLieferantId());
+				int id = rs.getInt(1);
+				String bez = rs.getString(2);
+				String besch = rs.getString(3);
+				double vpn = rs.getDouble(4);
+				
+				art = new Artikel(id, bez, besch, vpn, l.getLieferantId());
 				arts.add(art);
 			}
 			rs.close();
@@ -157,4 +159,3 @@ public class DbManager {
 	}
 
 }
-

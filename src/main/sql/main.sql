@@ -1,4 +1,7 @@
-CREATE TABLE Lieferanten (
+CREATE DATABASE swp_holzmann;
+USE swp_holzmann;
+
+CREATE TABLE Lieferant (
 LieferantId int primary key auto_increment,
 Name varchar(128) not null unique,
 Email varchar(255) not null,
